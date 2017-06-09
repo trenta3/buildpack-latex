@@ -1,0 +1,11 @@
+#!/bin/bash
+
+number=$(find "$1" -iname "*.tex" | wc -l)
+
+if [ "$number" -gt 0 ]; then
+    echo "LaTeX files"
+    exit 0
+else
+    exit 1
+fi
+

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SOURCEDIR=$1
+CACHEDIR=$2
+
+indent () {
+    sed -u 's/^/       /'
+}
+
+echo "-----> Found LaTeX files"
+
+CURRENTDIR=$(pwd)
+
+while read -r filename || [[ -n "$filename" ]]; do
+    pattern=\./
+    realpath=${filename#$pattern}
+    TEMP=$(mktemp -d)
+    echo "Compiling file '$realpath'" | indent
+    
+    latexmk -pdf "$SOURCEDIR/$realpath" -auxdir="$TEMP" -interaction=nonstopmode -outdir="$CURRENTDIR" -silent
+    rm -rf "$TEMP"
+done <<< $(grep --include=\*.tex -rwl "$SOURCEDIR" -e "\documentclass")
+
