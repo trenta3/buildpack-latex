@@ -17,7 +17,7 @@ while read -r filename || [[ -n "$filename" ]]; do
     TEMP=$(mktemp -d)
     echo "Compiling file '$realpath'" | indent
     
-    latexmk -pdf "$SOURCEDIR/$realpath" -auxdir="$TEMP" -interaction=nonstopmode -outdir="$CURRENTDIR" -silent
+    latexmk -pdf "$realpath" -auxdir="$TEMP" -interaction=nonstopmode -outdir="$CURRENTDIR" -silent
     rm -rf "$TEMP"
 done <<< $(grep --include=\*.tex -rwl "$SOURCEDIR" -e "\documentclass")
 
